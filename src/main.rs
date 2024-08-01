@@ -8,7 +8,7 @@ use full_moon::{
 };
 use rayon::prelude::*;
 
-pub const VERSION: &str = "0.1.0";
+pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[derive(Default)]
 struct FunctionCallVisitor {}
