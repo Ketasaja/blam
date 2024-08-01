@@ -40,12 +40,16 @@ impl VisitorMut for FunctionCallVisitor {
                                 let string = format!("{}", string_token_reference);
                                 if string == "''"
                                     || string == "\"\""
-                                    || string[1..].starts_with("[blam] ")
+                                    || string[1..].starts_with("[blam]")
                                 {
                                     let token_type = TokenType::StringLiteral {
                                         literal: ShortString::new(
-                                            format!("[blam] {}", first_argument)
-                                                .replace('"', "\\\""),
+                                            format!("[blam]\n{}", first_argument)
+                                                .replace('"', "\\\"")
+                                                .replace('"', "\\\"")
+                                                .replace("\n", "\\n")
+                                                .replace("\r", "\\r")
+                                                .replace("\t", "\\t"),
                                         ),
                                         multi_line: None,
                                         quote_type: tokenizer::StringLiteralQuoteType::Double,
@@ -64,8 +68,12 @@ impl VisitorMut for FunctionCallVisitor {
                                 if format!("{}", interpolated_string) == "``" {
                                     let token_type = TokenType::StringLiteral {
                                         literal: ShortString::new(
-                                            format!("[blam] {}", first_argument)
-                                                .replace('"', "\\\""),
+                                            format!("[blam]\n{}", first_argument)
+                                                .replace('"', "\\\"")
+                                                .replace('"', "\\\"")
+                                                .replace("\n", "\\n")
+                                                .replace("\r", "\\r")
+                                                .replace("\t", "\\t"),
                                         ),
                                         multi_line: None,
                                         quote_type: tokenizer::StringLiteralQuoteType::Double,
@@ -85,7 +93,11 @@ impl VisitorMut for FunctionCallVisitor {
                         None => {
                             let token_type = TokenType::StringLiteral {
                                 literal: ShortString::new(
-                                    format!("[blam] {}", first_argument).replace('"', "\\\""),
+                                    format!("[blam]\n{}", first_argument)
+                                        .replace('"', "\\\"")
+                                        .replace("\n", "\\n")
+                                        .replace("\r", "\\r")
+                                        .replace("\t", "\\t"),
                                 ),
                                 multi_line: None,
                                 quote_type: tokenizer::StringLiteralQuoteType::Double,
