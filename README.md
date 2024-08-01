@@ -4,7 +4,7 @@
 
 ## What?
 
-Replaces nonexistent or empty string message arguments of Lua `assert` calls with the expression being asserted. `assert(jump())` becomes `assert(jump(), "jump()")`. Compatible with Lua 5.1, Lua 5.2, Lua 5.3, Lua 5.4, and Luau.
+Replaces nonexistent or empty string message arguments of Lua `assert` calls with the expression being asserted. `assert(jump())` becomes `assert(jump(), "[blam]\njump()")`. Compatible with Lua 5.1, Lua 5.2, Lua 5.3, Lua 5.4, and Luau.
 
 ## Why?
 
