@@ -1,5 +1,6 @@
 [package]
 name = "blam"
+description = "Better Lua assert messages"
 version = "0.1.0"
 edition = "2021"
 
