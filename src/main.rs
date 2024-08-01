@@ -127,6 +127,47 @@ impl VisitorMut for FunctionCallVisitor {
     }
 }
 
+fn visit_directory(
+    canonical_paths: &mut HashSet<PathBuf>,
+    path: PathBuf,
+    argument: &String,
+) -> Result<(), std::io::Error> {
+    if let Ok(entries) = fs::read_dir(path) {
+        for entry in entries {
+            match entry {
+                Ok(file_entry) => {
+                    let entry_path = match fs::canonicalize(file_entry.path()) {
+                        Ok(entry_path) => entry_path,
+                        Err(error) => {
+                            println!("File error on `{}`", &argument);
+                            return Err(error);
+                        }
+                    };
+                    if entry_path.is_dir() {
+                        if let Err(error) = visit_directory(canonical_paths, entry_path, argument) {
+                            return Err(error);
+                        }
+                    } else {
+                        if !canonical_paths.contains(&entry_path) {
+                            if let Some(extension) = entry_path.extension() {
+                                if extension == "luau" || extension == "lua" {
+                                    canonical_paths.insert(entry_path);
+                                }
+                            }
+                        }
+                    }
+                }
+                Err(error) => {
+                    println!("File error on `{}`", &argument);
+                    return Err(error);
+                }
+            }
+        }
+    }
+
+    Ok(())
+}
+
 fn main() -> Result<(), std::io::Error> {
     let arguments: Vec<String> = env::args().collect();
 
@@ -169,31 +210,8 @@ fn main() -> Result<(), std::io::Error> {
                 }
             }
         } else if path.is_dir() {
-            if let Ok(entries) = fs::read_dir(path) {
-                for entry in entries {
-                    match entry {
-                        Ok(file_entry) => {
-                            let entry_path = match fs::canonicalize(file_entry.path()) {
-                                Ok(entry_path) => entry_path,
-                                Err(error) => {
-                                    println!("File error on `{}`", &argument);
-                                    return Err(error);
-                                }
-                            };
-                            if !canonical_paths.contains(&entry_path) {
-                                if let Some(extension) = entry_path.extension() {
-                                    if extension == "luau" || extension == "lua" {
-                                        canonical_paths.insert(entry_path);
-                                    }
-                                }
-                            }
-                        }
-                        Err(error) => {
-                            println!("File error on `{}`", &argument);
-                            return Err(error);
-                        }
-                    }
-                }
+            if let Err(error) = visit_directory(&mut canonical_paths, path, &argument) {
+                return Err(error);
             }
         }
     }
