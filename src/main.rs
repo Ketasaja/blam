@@ -45,8 +45,8 @@ impl VisitorMut for FunctionCallVisitor {
                                     let token_type = TokenType::StringLiteral {
                                         literal: ShortString::new(
                                             format!("[blam]\n{}", first_argument)
-                                                .replace('"', "\\\"")
-                                                .replace('"', "\\\"")
+                                                .replace("\\", "\\\\")
+                                                .replace("\"", "\\\"")
                                                 .replace("\n", "\\n")
                                                 .replace("\r", "\\r")
                                                 .replace("\t", "\\t"),
@@ -69,8 +69,8 @@ impl VisitorMut for FunctionCallVisitor {
                                     let token_type = TokenType::StringLiteral {
                                         literal: ShortString::new(
                                             format!("[blam]\n{}", first_argument)
-                                                .replace('"', "\\\"")
-                                                .replace('"', "\\\"")
+                                                .replace("\\", "\\\\")
+                                                .replace("\"", "\\\"")
                                                 .replace("\n", "\\n")
                                                 .replace("\r", "\\r")
                                                 .replace("\t", "\\t"),
@@ -94,7 +94,8 @@ impl VisitorMut for FunctionCallVisitor {
                             let token_type = TokenType::StringLiteral {
                                 literal: ShortString::new(
                                     format!("[blam]\n{}", first_argument)
-                                        .replace('"', "\\\"")
+                                        .replace("\\", "\\\\")
+                                        .replace("\"", "\\\"")
                                         .replace("\n", "\\n")
                                         .replace("\r", "\\r")
                                         .replace("\t", "\\t"),
