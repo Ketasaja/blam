@@ -246,28 +246,28 @@ mod tests {
     fn test_adds_second_argument() {
         let mut visitor = FunctionCallVisitor::default();
         let ast = visitor.visit_ast(full_moon::parse("assert(true)").unwrap());
-        assert_eq!("assert(true, \"[blam] true\")", full_moon::print(&ast))
+        assert_eq!("assert(true, \"[blam]\\ntrue\")", full_moon::print(&ast))
     }
 
     #[test]
     fn test_empty_single_quote_replacement() {
         let mut visitor = FunctionCallVisitor::default();
         let ast = visitor.visit_ast(full_moon::parse("assert(true, '')").unwrap());
-        assert_eq!("assert(true, \"[blam] true\")", full_moon::print(&ast))
+        assert_eq!("assert(true, \"[blam]\\ntrue\")", full_moon::print(&ast))
     }
 
     #[test]
     fn test_empty_double_quote_replacement() {
         let mut visitor = FunctionCallVisitor::default();
         let ast = visitor.visit_ast(full_moon::parse("assert(true, \"\")").unwrap());
-        assert_eq!("assert(true, \"[blam] true\")", full_moon::print(&ast))
+        assert_eq!("assert(true, \"[blam]\\ntrue\")", full_moon::print(&ast))
     }
 
     #[test]
     fn test_interpolated_string_replacement() {
         let mut visitor = FunctionCallVisitor::default();
         let ast = visitor.visit_ast(full_moon::parse("assert(true, ``)").unwrap());
-        assert_eq!("assert(true, \"[blam] true\")", full_moon::print(&ast))
+        assert_eq!("assert(true, \"[blam]\\ntrue\")", full_moon::print(&ast))
     }
 
     #[test]
@@ -282,7 +282,7 @@ mod tests {
     fn test_replaces_existing_blam_messages() {
         let mut visitor = FunctionCallVisitor::default();
         let ast = visitor.visit_ast(full_moon::parse("assert(true, \"[blam] false\")").unwrap());
-        assert_eq!("assert(true, \"[blam] true\")", full_moon::print(&ast))
+        assert_eq!("assert(true, \"[blam]\\ntrue\")", full_moon::print(&ast))
     }
 
     #[test]
