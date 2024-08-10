@@ -215,10 +215,7 @@ fn main() -> Result<(), std::io::Error> {
             if !canonical_paths.contains(&path) {
                 if let Some(extension) = path.extension() {
                     if extension == "luau" || extension == "lua" {
-                        if canonical_paths.contains(&path) {
-                        } else {
-                            canonical_paths.insert(path);
-                        }
+                        canonical_paths.insert(path);
                     }
                 }
             }
